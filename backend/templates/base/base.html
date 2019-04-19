@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+{% load staticfiles %}
+{% load util_filters %}
+
+<head>
+    <meta charset="UTF-8">
+    {% block title %}
+    <title></title>
+    {% endblock title %}
+    {% block css %}
+    <link rel="icon" type="image/gif" href="{% static 'base/images/favicon.ico' %}"/>
+    <link rel="stylesheet" href="{% static 'base/css/semantic.min.css' %}" type="text/css"/>
+    <style>
+        html {
+            height: 100%;
+            width: 100%;
+        }
+
+        body {
+            height: 100%;
+            width: 100%;
+            /*font-family: 'Varela Round', sans-serif;*/
+{#            background: -webkit-radial-gradient(circle, rgba(237, 240, 242, 0.2), rgba(237, 240, 242, 1));#}
+            background-color: rgba(237, 240, 242, 0.3);
+        }
+
+        body > .ui.menu {
+            border-radius: 0px;
+        }
+
+        .full-height {
+            height: 100%;
+        }
+
+        #cgk-logo {
+            background: white;
+            padding: 0px 0px 0px 10px;
+            border-radius: 0px;
+            width: 145px;
+        }
+
+        #mon-content {
+            padding: 0px 50px;
+        }
+
+        .ui.horizontal.divider:after, .ui.horizontal.divider:before {
+            /* Hack for chrome version */
+            top: initial!important;
+        }
+    </style>
+    {% endblock css %}
+</head>
+<body>
+    <div class="ui menu">
+        <div id="cgk-logo" class="header item">
+            <a class="ui logo icon image" href="/">
+            </a>
+        </div>
+
+        <a class="item" href="{% url 'base:home' %}">Home</a>
+
+        {% if user.is_superuser %}
+        <a class="item" href="/all_global_templates/">All global templates</a>
+        {% endif %}
+
+
+    </div>
+
+    <div class="ui main container fluid" style="min-height:77%">
+        <div id="wrapper" class="full-height">
+            <div id="mon-content" class="ui container fluid full-height">
+                {% block maincontent %}
+                {% endblock %}
+            </div>
+        </div>
+    </div>
+    {% block js %}
+        <script src="{% static 'base/js/jquery-3.1.0.min.js' %}"></script>
+        <script src="{% webpack_static 'dist/vendor.dist.js' %}"></script>
+        <script src="{% webpack_static 'dist/base.dist.js' %}"></script>
+    {% endblock %}
+</body>
+</html>
