@@ -4,7 +4,7 @@ image: gitpod/workspace-full
 tasks:
   - init: cd frontend && npm install
     command: npm run dev-server
-  - init: pip3 install -f requirements.txt
+  - init: pip3 install -r requirements.txt
     command: python3 manage.py runserver 0.0.0.0:9000
 
 # Ports to expose on workspace startup (optional)

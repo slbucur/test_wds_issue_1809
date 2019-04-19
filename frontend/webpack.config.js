@@ -90,7 +90,8 @@ const common = {
         headers: {
             'Access-Control-Allow-Origin': '*'
         },
-        port: 8080
+        port: 8080,
+        disableHostCheck: true
     },
     optimization: {
         splitChunks: {
