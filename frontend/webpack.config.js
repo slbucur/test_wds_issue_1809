@@ -95,7 +95,7 @@ const common = {
         historyApiFallback: true,
         publicPath: wdsUrl,
         proxy: {
-            '*': djangoUrl
+            '*': `http://localhost:${djangoPort}`
         },
         headers: {
             'Access-Control-Allow-Origin': '*'
