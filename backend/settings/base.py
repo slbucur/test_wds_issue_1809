@@ -163,6 +163,16 @@ CACHES = {
     }
 }
 
-WEBPACK_DEV_SERVER = {
-    'URL': 'http://localhost:8080'
-}
+import os
+
+git_pod_url = os.environ.get('GITPOD_WORKSPACE_URL')
+
+
+if not git_pod_url:
+    WEBPACK_DEV_SERVER = {
+        'URL': 'http://localhost:8080'
+    }
+else:
+    WEBPACK_DEV_SERVER = {
+        'URL': git_pod_url.replace('https://', 'https://8080-')
+    }

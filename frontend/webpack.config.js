@@ -2,6 +2,19 @@ const webpack = require('webpack')
 const path = require('path')
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 
+const djangoPort = 9000;
+const wdsPort = 8080;
+
+let djangoUrl = `http://localhost:${djangoPort}`;
+let wdsUrl = `http://localhost:${wdsPort}`;
+
+const gitPodUrl = process.env.GITPOD_WORKSPACE_URL;
+
+if(gitPodUrl){
+   djangoUrl = gitPodUrl.replace('https://', `https://${djangoPort}-`)
+   wdsUrl = gitPodUrl.replace('https://', `https://${wdsPort}-`)
+}
+
 const PATHS = {
     app: __dirname,
     build: path.join(__dirname, '../backend/static/dist')
@@ -20,9 +33,6 @@ const getArg = (argName) => {
     const argIdx = process.argv.indexOf(`--${argName}`);
     return argIdx > -1 ? process.argv[argIdx + 1] : null;
 };
-
-const port = getArg('port') || 8080;
-const djangoPort = getArg('django-port') || 9000;
 
 const common = {
     context: path.resolve(__dirname),
@@ -83,14 +93,14 @@ const common = {
 
     devServer: {
         historyApiFallback: true,
-        publicPath: `http://localhost:${port}/`,
+        publicPath: wdsUrl,
         proxy: {
-            '*': `http://localhost:${djangoPort}`
+            '*': djangoUrl
         },
         headers: {
             'Access-Control-Allow-Origin': '*'
         },
-        port: 8080,
+        port: wdsPort,
         disableHostCheck: true
     },
     optimization: {
@@ -107,7 +117,7 @@ const common = {
 };
 
 if (isDevServer) {
-    common.output.publicPath = `http://localhost:${port}/`;
+    common.output.publicPath = wdsUrl;
 }
 
 module.exports = common;
