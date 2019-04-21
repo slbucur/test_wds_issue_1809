@@ -7,12 +7,14 @@ const wdsPort = 8080;
 
 let djangoUrl = `http://localhost:${djangoPort}`;
 let wdsUrl = `http://localhost:${wdsPort}`;
+let public = `localhost:${wdsPort}`;
 
 const gitPodUrl = process.env.GITPOD_WORKSPACE_URL;
 
 if(gitPodUrl){
    djangoUrl = gitPodUrl.replace('https://', `https://${djangoPort}-`)
    wdsUrl = gitPodUrl.replace('https://', `https://${wdsPort}-`)
+   public = gitPodUrl.replace('https://', `${wdsPort}-`)
 }
 
 const PATHS = {
@@ -94,6 +96,7 @@ const common = {
     devServer: {
         historyApiFallback: true,
         publicPath: wdsUrl,
+        public: public,
         proxy: {
             '*': `http://localhost:${djangoPort}`
         },
